@@ -30,6 +30,7 @@ void setup() {
   // put your setup code here, to run once:
 
   Serial.begin(9600);
+  
   pinMode(A0, INPUT);// Right Joystick X Val
   pinMode(A1, INPUT);// Right Joystick Y Val
   pinMode(A2, INPUT);// Right Potentiometer
@@ -39,7 +40,14 @@ void setup() {
   pinMode(3, OUTPUT); // RED RGB
   pinMode(4, OUTPUT); // GREEN RGB
   pinMode(5, OUTPUT);// BLUE RGB
-  
+
+  display.clearDisplay(); // initial clearing of the display
+
+  display.setTextSize(2);
+  display.setTextColor(ORANGE);
+  display.setCursor(0,0);
+  display.println("WELCOME");
+  display.display();
   
   
 
