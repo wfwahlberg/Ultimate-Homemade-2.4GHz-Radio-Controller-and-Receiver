@@ -73,10 +73,23 @@ display.clearDisplay();
  transmitter.setPALevel(RF24_PA_MAX);
  transmitter.stopListening();
 
+
+
+
+digitalWrite(4, HIGH);
+delay(1000);
+digitalWrite(5, HIGH);
+delay(500);
+digitalWrite(4, LOW);
+digitalWrite(5, LOW);
+
+ 
+
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
+
 
 
 
