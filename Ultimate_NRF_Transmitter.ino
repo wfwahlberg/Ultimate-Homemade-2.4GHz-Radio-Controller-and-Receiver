@@ -6,6 +6,7 @@
 #include <Wire.h>
 
 float calcmotval;
+int RYVal;
 
 #define SSD1306_128_32
 
@@ -41,13 +42,29 @@ void setup() {
   pinMode(4, OUTPUT); // GREEN RGB
   pinMode(5, OUTPUT);// BLUE RGB
 
+display.begin();
+
   display.clearDisplay(); // initial clearing of the display
 
-  display.setTextSize(2);
-  display.setTextColor(ORANGE);
+  display.setTextSize(3);
+  display.setTextColor(WHITE);
   display.setCursor(0,0);
   display.println("WELCOME");
   display.display();
+
+  delay(2000);
+
+display.clearDisplay();
+
+  display.setTextSize(3);
+  display.setTextColor(WHITE);
+  display.setCursor(0,0);
+  display.println("William");
+  display.display();
+
+  delay(3000);
+  display.clearDisplay();
+  
   
   
 
@@ -62,6 +79,8 @@ void loop() {
   // put your main code here, to run repeatedly:
 
 
+
+
  
   
 
@@ -69,7 +88,27 @@ void loop() {
 while(transmitter.isChipConnected () == true){
   
  int motval = analogRead(A7);
+  int RYVal = analogRead(A1);
  float calcmotval = (motval/1023.)*180.;
+ 
+ display.clearDisplay();
+ display.setTextSize(3);
+  display.setTextColor(WHITE);
+  display.setCursor(0,0);
+  display.print(motval);
+  display.print(" ");
+  display.print(RYVal);
+  display.setTextSize(1.5);
+  display.println("");
+  display.println("");
+  display.println("");
+  display.println("LY           RX");
+  display.display();
+
+  
+ 
+  
+ 
   Serial.println(calcmotval);
   Serial.println("It is Connected!");
 delay(50);
