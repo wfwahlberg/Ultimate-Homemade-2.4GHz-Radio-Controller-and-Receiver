@@ -6,6 +6,7 @@
 #include <Wire.h>
 
 float calcmotval;
+int motval;
 int RYVal;
 
 #define SSD1306_128_32
@@ -46,25 +47,8 @@ display.begin();
 
   display.clearDisplay(); // initial clearing of the display
 
-  display.setTextSize(3);
-  display.setTextColor(WHITE);
-  display.setCursor(0,0);
-  display.println("WELCOME");
-  display.display();
-
-  delay(2000);
-
-display.clearDisplay();
-
-  display.setTextSize(3);
-  display.setTextColor(WHITE);
-  display.setCursor(0,0);
-  display.println("William");
-  display.display();
-
-  delay(3000);
-  display.clearDisplay();
-  
+ 
+  WelcomeWilliam(); //Welcomes me through OLED Panel.
   
   
 
@@ -83,43 +67,23 @@ delay(500);
 digitalWrite(4, LOW);
 digitalWrite(5, LOW);
 
+
+ValuestoOLED();// Displays Joystick Values to OLED Panel
  
 
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-
-
-
-
-
- 
-  
-
 
 while(transmitter.isChipConnected () == true){
   
- int motval = analogRead(A7);
-  int RYVal = analogRead(A1);
- float calcmotval = (motval/1023.)*180.;
- 
- display.clearDisplay();
- display.setTextSize(3);
-  display.setTextColor(WHITE);
-  display.setCursor(0,0);
-  display.print(motval);
-  display.print(" ");
-  display.print(RYVal);
-  display.setTextSize(1.5);
-  display.println("");
-  display.println("");
-  display.println("");
-  display.println("LY           RX");
-  display.display();
-
-  
- 
+ sensvals[0] = analogRead(A0);
+  sensvals[1] = analogRead(A1);
+   sensvals[2] = analogRead(A2);
+    sensvals[3] = analogRead(A3);
+     sensvals[4] = analogRead(A6);
+      sensvals[5] = analogRead(A7);
+       
   
  
   Serial.println(calcmotval);
@@ -134,3 +98,46 @@ transmitter.write(&calcmotval,sizeof(calcmotval));
   
 
 }
+
+void ValuestoOLED(){
+
+display.clearDisplay();
+ display.setTextSize(3);
+  display.setTextColor(WHITE);
+  display.setCursor(0,0);
+  display.print(motval);
+  display.print(" ");
+  display.print(RYVal);
+  display.setTextSize(1.5);
+  display.println("");
+  display.println("");
+  display.println("");
+  display.println("LY           RX");
+  display.display();
+
+}
+
+
+void WelcomeWilliam(){
+  
+ display.setTextSize(3);
+  display.setTextColor(WHITE);
+  display.setCursor(0,0);
+  display.println("WELCOME");
+  display.display();
+
+  delay(2000);
+
+display.clearDisplay();
+
+  display.setTextSize(3);
+  display.setTextColor(WHITE);
+  display.setCursor(0,0);
+  display.println("William");
+  display.display();
+
+  delay(3000);
+  display.clearDisplay();
+
+}
+
