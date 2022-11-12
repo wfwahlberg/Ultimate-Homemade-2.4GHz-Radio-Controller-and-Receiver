@@ -23,7 +23,7 @@ RF24 transmitter(8,10);// CE and CS Pins
 
 const byte address[6] = {"24"};
 
-int sensvals[10];
+float sensvals[5];
 
 
 int val;
@@ -68,7 +68,7 @@ digitalWrite(4, LOW);
 digitalWrite(5, LOW);
 
 
-ValuestoOLED();// Displays Joystick Values to OLED Panel
+
  
 
 }
@@ -77,20 +77,22 @@ void loop() {
 
 while(transmitter.isChipConnected () == true){
   
- sensvals[0] = analogRead(A0);
-  sensvals[1] = analogRead(A1);
+ sensvals[0] = ((analogRead(A0))/1023.)*180.;
+  sensvals[1] = ((analogRead(A1))/1023.)*180.;
    sensvals[2] = analogRead(A2);
     sensvals[3] = analogRead(A3);
-     sensvals[4] = analogRead(A6);
-      sensvals[5] = analogRead(A7);
+     sensvals[4] = ((analogRead(A6))/1023.)*180.;
+      sensvals[5] = ((analogRead(A7))/1023.)*180.;
+
+      
        
-  
+  ValuestoOLED();// Displays Joystick Values to OLED Panel
  
-  Serial.println(calcmotval);
+ 
   Serial.println("It is Connected!");
 delay(50);
   
-transmitter.write(&calcmotval,sizeof(calcmotval));
+transmitter.write(&sensvals,sizeof(sensvals));
 
 
   
@@ -105,9 +107,9 @@ display.clearDisplay();
  display.setTextSize(3);
   display.setTextColor(WHITE);
   display.setCursor(0,0);
-  display.print(motval);
+  display.print(sensvals[2]);
   display.print(" ");
-  display.print(RYVal);
+  display.print(sensvals[1]);
   display.setTextSize(1.5);
   display.println("");
   display.println("");
@@ -140,4 +142,3 @@ display.clearDisplay();
   display.clearDisplay();
 
 }
-
