@@ -14,7 +14,10 @@ const byte address[6] = {"24"};
 
 float sensvals;
 
-Servo servo1;
+Servo ailerons;
+Servo rutter;
+Servo elevator;
+Servo frontprop;
 
 
 int val;
@@ -26,11 +29,16 @@ void setup() {
 
 
  receiver.begin();
- receiver.openReadingPipe(0, address);  
- receiver.setPALevel(RF24_PA_MAX);
- receiver.startListening();
+   receiver.openReadingPipe(0, address);  
+     receiver.setPALevel(RF24_PA_MAX);
+       receiver.startListening();
 
- servo1.attach(3);
+ ailerons.attach(3);
+   rutter.attach(5);
+     frontprop.attach(6);
+       elevator.attach(9);
+  
+  
 
 
 
@@ -52,8 +60,10 @@ delay(50);
 receiver.read(&sensvals,sizeof(sensvals));
 Serial.println(sensvals[1]);
 
-servo1.write(sensvals[1]);
-
+ailerons.write(sensvals[1]);
+  rutter.write(sensvals[2]);
+    frontprop.write(sensvals[3]);
+        elevator.write(sensvals[4]);
 
   
 }
