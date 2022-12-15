@@ -55,18 +55,27 @@ while(receiver.isChipConnected () == true){
  float sensvals [5];
  
   
-delay(50);
+delay(30);
   
 receiver.read(&sensvals,sizeof(sensvals));
 Serial.println(sensvals[1]);
 
-ailerons.write(sensvals[1]);
+writevaluestoservos()
+  
+}
+  
+
+}
+
+
+void writevaluestoservos(){
+  
+  
+  ailerons.write(sensvals[1]);
   rutter.write(sensvals[2]);
     frontprop.write(sensvals[3]);
         elevator.write(sensvals[4]);
 
   
-}
   
-
 }
