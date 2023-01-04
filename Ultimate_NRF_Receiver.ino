@@ -8,16 +8,13 @@ float calcmotval;
 int motval;
 int RYVal;
 
-RF24 receiver(8,7);// CE and CS Pins
+RF24 receiver(8,10);// CE and CS Pins
 
 const byte address[6] = {"24"};
 
-float sensvals;
+float sensvals [5];
 
-Servo ailerons;
-Servo rutter;
-Servo elevator;
-Servo frontprop;
+Servo servo1;
 
 
 int val;
@@ -29,16 +26,12 @@ void setup() {
 
 
  receiver.begin();
-   receiver.openReadingPipe(0, address);  
-     receiver.setPALevel(RF24_PA_MAX);
-       receiver.startListening();
+ receiver.openReadingPipe(0, address);  
+ receiver.setPALevel(RF24_PA_MIN);
+ receiver.setDataRate(RF24_250KBPS);
+ receiver.startListening();
 
- ailerons.attach(3);
-   rutter.attach(5);
-     frontprop.attach(6);
-       elevator.attach(9);
-  
-  
+ servo1.attach(3);
 
 
 
@@ -52,30 +45,19 @@ void loop() {
 
 while(receiver.isChipConnected () == true){
 
- float sensvals [5];
+ 
  
   
-delay(30);
+delay(50);
   
 receiver.read(&sensvals,sizeof(sensvals));
 Serial.println(sensvals[1]);
 
-writevaluestoservos()
+servo1.write(sensvals[1]);
+
+
   
 }
   
 
-}
-
-
-void writevaluestoservos(){
-  
-  
-  ailerons.write(sensvals[1]);
-  rutter.write(sensvals[2]);
-    frontprop.write(sensvals[3]);
-        elevator.write(sensvals[4]);
-
-  
-  
 }
