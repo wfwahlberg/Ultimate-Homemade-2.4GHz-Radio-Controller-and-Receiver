@@ -19,7 +19,7 @@ int RYVal;
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 
-RF24 transmitter(8,10);// CE and CS Pins
+RF24 transmitter(8,10);// CE and CS Pins (8,10 for the White OLED Panel Controller)
 
 const byte address[6] = {"24"};
 
@@ -42,6 +42,7 @@ void setup() {
   pinMode(3, OUTPUT); // RED RGB
   pinMode(4, OUTPUT); // GREEN RGB
   pinMode(5, OUTPUT);// BLUE RGB
+  pinMode(10,OUTPUT);//needs to be set as OUTPUT to work as CSN pin
 
 display.begin();
 
@@ -54,7 +55,8 @@ display.begin();
 
  transmitter.begin();
  transmitter.openWritingPipe(address);  
- transmitter.setPALevel(RF24_PA_MAX);
+ transmitter.setPALevel(RF24_PA_MIN);
+ transmitter.setDataRate(RF24_250KBPS);
  transmitter.stopListening();
 
 
@@ -78,8 +80,8 @@ void loop() {
 while(transmitter.isChipConnected () == true){
   
  sensvals[0] = ((analogRead(A0))/1023.)*180.;
-  sensvals[1] = ((analogRead(A1))/1023.)*180.;
-   sensvals[2] = analogRead(A2);
+  sensvals[1] = ((analogRead(A1))/685.)*180.;
+   sensvals[2] = ((analogRead(A2))/263.)*180.;
     sensvals[3] = analogRead(A3);
      sensvals[4] = ((analogRead(A6))/1023.)*180.;
       sensvals[5] = ((analogRead(A7))/1023.)*180.;
@@ -95,8 +97,8 @@ delay(50);
 transmitter.write(&sensvals,sizeof(sensvals));
 
 
-  
 }
+
   
 
 }
@@ -104,11 +106,11 @@ transmitter.write(&sensvals,sizeof(sensvals));
 void ValuestoOLED(){
 
 display.clearDisplay();
- display.setTextSize(3);
+ display.setTextSize(2);
   display.setTextColor(WHITE);
   display.setCursor(0,0);
   display.print(sensvals[2]);
-  display.print(" ");
+  display.print("     ");
   display.print(sensvals[1]);
   display.setTextSize(1.5);
   display.println("");
